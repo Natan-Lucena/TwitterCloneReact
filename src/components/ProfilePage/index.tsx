@@ -8,7 +8,9 @@ import {
     LocationIcon,
     CakeIcon,
     Followage,
+    EditButton,
 } from './styles';
+import Feed from '../Feed/Index';
 
 const ProfilePage: React.FC = () => {
     return (
@@ -18,7 +20,7 @@ const ProfilePage: React.FC = () => {
             </Banner>
 
             <ProfileData>
-                {/* <EditButton outlined>Editar Perfil</EditButton> */}
+                <EditButton outlined>Editar Perfil</EditButton>
                 <h1>Natan Lucena</h1>
                 <h2>@natanlucena</h2>
                 <p>
@@ -46,6 +48,7 @@ const ProfilePage: React.FC = () => {
                     </span>
                 </Followage>
             </ProfileData>
+            <Feed />
         </Container>
     );
 };
