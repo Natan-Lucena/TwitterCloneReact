@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import axios from 'axios';
 
 import Button from '../Button';
 
@@ -17,8 +18,43 @@ import {
     ProfileData,
     ExitIcon,
 } from './styles';
+import { useNavigate } from 'react-router-dom';
+
+interface User {
+    name: string;
+    email: string;
+}
 
 const MenuBar: React.FC = () => {
+    const navigate = useNavigate();
+    const [user, setUser] = React.useState<User>();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('Você precisa estar logado para acessar essa página!');
+            navigate('/login');
+            return;
+        }
+        const fetchUser = async () => {
+            try {
+                const response = await axios.get(
+                    'http://localhost:3001/v1/user/me',
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+                setUser(response.data);
+            } catch (e) {
+                alert('Erro ao buscar dados do usuário');
+                navigate('/login');
+            }
+        };
+        fetchUser();
+    }, [navigate]);
+
     return (
         <Container>
             <TopSide>
@@ -51,8 +87,8 @@ const MenuBar: React.FC = () => {
             <BotSide>
                 <Avatar />
                 <ProfileData>
-                    <strong>Lucas Montano</strong>
-                    <span>@lucasmontano</span>
+                    <strong>{user?.name}</strong>
+                    <span>{user?.email}</span>
                 </ProfileData>
                 <ExitIcon />
             </BotSide>
