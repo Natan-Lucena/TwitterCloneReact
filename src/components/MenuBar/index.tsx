@@ -22,7 +22,7 @@ import { useNavigate } from 'react-router-dom';
 
 interface User {
     name: string;
-    email: string;
+    username: string;
 }
 
 const MenuBar: React.FC = () => {
@@ -48,7 +48,6 @@ const MenuBar: React.FC = () => {
                 );
                 setUser(response.data);
             } catch (e) {
-                alert('Erro ao buscar dados do usuário');
                 navigate('/login');
             }
         };
@@ -88,7 +87,7 @@ const MenuBar: React.FC = () => {
                 <Avatar />
                 <ProfileData>
                     <strong>{user?.name}</strong>
-                    <span>{user?.email}</span>
+                    <span>{user?.username}</span>
                 </ProfileData>
                 <ExitIcon />
             </BotSide>
