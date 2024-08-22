@@ -18,7 +18,21 @@ import {
     Dot,
 } from './styles';
 
-const Tweet: React.FC = () => {
+interface ITweetProps {
+    name: string;
+    user: string;
+    date: string;
+    description: string;
+    image?: string;
+}
+
+const Tweet: React.FC<ITweetProps> = ({
+    name,
+    user,
+    date,
+    description,
+    image,
+}: ITweetProps) => {
     return (
         <Container>
             <Retweeted>
@@ -30,13 +44,13 @@ const Tweet: React.FC = () => {
                 <Avatar />
                 <Content>
                     <Header>
-                        <strong>Lucas Montano</strong>
-                        <span>@lucasmontano_</span>
+                        <strong>{name}</strong>
+                        <span>{user}</span>
                         <Dot />
-                        <time>27 de jun</time>
+                        <time>{date}</time>
                     </Header>
-                    <Description>Foguete não tem ré 🚀</Description>
-                    <ImageContent />
+                    <Description>{description}</Description>
+                    {image && <ImageContent src={image} />}
                     <Icons>
                         <Status>
                             <CommentIcon />
