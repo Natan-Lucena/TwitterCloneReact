@@ -23,6 +23,7 @@ interface ITweetProps {
     user: string;
     date: string;
     description: string;
+    likes: number;
     image?: string;
 }
 
@@ -32,6 +33,7 @@ const Tweet: React.FC<ITweetProps> = ({
     date,
     description,
     image,
+    likes,
 }: ITweetProps) => {
     return (
         <Container>
@@ -62,7 +64,7 @@ const Tweet: React.FC<ITweetProps> = ({
                         </Status>
                         <Status>
                             <LikeIcon />
-                            999
+                            {likes}
                         </Status>
                     </Icons>
                 </Content>

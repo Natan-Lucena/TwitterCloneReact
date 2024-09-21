@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {
     Container,
@@ -11,8 +11,42 @@ import {
     EditButton,
 } from './styles';
 import Feed from '../Feed/Index';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+interface User {
+    description: string;
+    username: string;
+    name: string;
+}
 
 const ProfilePage: React.FC = () => {
+    const navigate = useNavigate();
+    const [user, setUser] = React.useState<User>();
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('Você precisa estar logado para acessar essa página!');
+            navigate('/login');
+            return;
+        }
+        const fetchUser = async () => {
+            try {
+                const response = await axios.get(
+                    'http://localhost:3001/v1/user/me',
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+                setUser(response.data);
+            } catch (e) {
+                navigate('/login');
+            }
+        };
+        fetchUser();
+    }, [navigate]);
     return (
         <Container>
             <Banner>
@@ -21,13 +55,10 @@ const ProfilePage: React.FC = () => {
 
             <ProfileData>
                 <EditButton outlined>Editar Perfil</EditButton>
-                <h1>Natan Lucena</h1>
-                <h2>@natanlucena</h2>
+                <h1>{user?.name}</h1>
+                <h2>{user?.username}</h2>
                 <p>
-                    Full stack developer at{' '}
-                    <a href="https://www.linkedin.com/in/natan-lucena/">
-                        @natanlucena
-                    </a>
+                    {user?.description ? user.description : 'Descrição vazia'}
                 </p>
                 <ul>
                     <li>

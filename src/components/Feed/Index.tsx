@@ -11,6 +11,7 @@ interface ITweetProps {
     };
     date: string;
     description: string;
+    Likes: any[];
     image?: string;
 }
 
@@ -55,6 +56,7 @@ const Feed: React.FC = () => {
                         date={'17 jun 2021'}
                         description={tweet.description}
                         image={tweet.image}
+                        likes={tweet.Likes.length}
                     />
                 ))}
             </Tweets>
