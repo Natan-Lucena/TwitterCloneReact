@@ -7,7 +7,6 @@ import {
     ProfileData,
     LocationIcon,
     CakeIcon,
-    Followage,
     EditButton,
 } from './styles';
 import Feed from '../Feed/Index';
@@ -26,7 +25,6 @@ const ProfilePage: React.FC = () => {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (!token) {
-            alert('Você precisa estar logado para acessar essa página!');
             navigate('/login');
             return;
         }
@@ -70,14 +68,6 @@ const ProfilePage: React.FC = () => {
                         Nascido(a) em 4 de setembro de 2004
                     </li>
                 </ul>
-                <Followage>
-                    <span>
-                        seguindo <strong>94</strong>
-                    </span>
-                    <span>
-                        <strong>672 </strong> seguidores
-                    </span>
-                </Followage>
             </ProfileData>
             <Feed />
         </Container>

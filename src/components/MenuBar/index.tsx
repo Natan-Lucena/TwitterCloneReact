@@ -32,7 +32,6 @@ const MenuBar: React.FC = () => {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (!token) {
-            alert('Você precisa estar logado para acessar essa página!');
             navigate('/login');
             return;
         }
