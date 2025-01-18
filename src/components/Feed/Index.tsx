@@ -4,14 +4,21 @@ import Tweet from '../Tweet';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+interface ILike {
+    userId: string;
+    id: string;
+    tweetId: string;
+}
+
 interface ITweetProps {
+    id: string;
     User: {
         name: string;
         username: string;
     };
     date: string;
     description: string;
-    Likes: any[];
+    Likes: ILike[];
     image?: string;
 }
 
@@ -50,6 +57,7 @@ const Feed: React.FC = () => {
             <Tweets>
                 {tweets.map((tweet, index) => (
                     <Tweet
+                        tweetId={tweet.id}
                         key={index}
                         name={tweet.User.name}
                         user={tweet.User.username}
@@ -57,6 +65,11 @@ const Feed: React.FC = () => {
                         description={tweet.description}
                         image={tweet.image}
                         likes={tweet.Likes.length}
+                        isLiked={tweet.Likes.some(
+                            (like) =>
+                                like.userId ===
+                                localStorage.getItem('currentUserId')
+                        )}
                     />
                 ))}
             </Tweets>

@@ -45,6 +45,7 @@ const MenuBar: React.FC = () => {
                         },
                     }
                 );
+                localStorage.setItem('currentUserId', response.data.id);
                 setUser(response.data);
             } catch (e) {
                 navigate('/login');

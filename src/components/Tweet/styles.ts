@@ -137,6 +137,8 @@ export const Status = styled.div`
 
     svg {
         margin-right: 5px;
+        width: 20px;
+        height: 20px;
     }
     &:nth-child(1) {
         &,
@@ -145,15 +147,15 @@ export const Status = styled.div`
         }
     }
     &:nth-child(2) {
-        color: var(--retweet);
+        color: gray;
         svg path {
-            fill: var(--retweet);
+            fill: gray;
         }
     }
     &:nth-child(3) {
-        color: var(--like);
+        color: var(--twitter);
         svg {
-            fill: var(--like);
+            fill: var(--twitter);
         }
     }
 `;
