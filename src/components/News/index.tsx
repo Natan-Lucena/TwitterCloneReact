@@ -2,11 +2,16 @@ import React from 'react';
 
 import { Container } from './styles';
 
-const News: React.FC = () => {
+interface NewsProps {
+    link: string;
+    description: string;
+}
+
+const News: React.FC<NewsProps> = (props: NewsProps) => {
     return (
-        <Container>
+        <Container onClick={() => window.open(props.link, '_blank')}>
             <span>Assuntos do momento no Brasil</span>
-            <strong>Troca de tiro em quixada</strong>
+            <strong>{props.description}</strong>
         </Container>
     );
 };

@@ -19,10 +19,15 @@ interface User {
     name: string;
     username: string;
 }
+interface INews {
+    description: string;
+    link: string;
+}
 
 const SideBar: React.FC = () => {
     const navigate = useNavigate();
     const [users, setUser] = React.useState<User[]>();
+    const [news, setNews] = React.useState<INews[]>();
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -30,6 +35,21 @@ const SideBar: React.FC = () => {
             navigate('/login');
             return;
         }
+        const fetchNews = async () => {
+            try {
+                const response = await axios.get(
+                    'http://localhost:3001/v1/news',
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+                setNews(response.data.news);
+            } catch (e) {
+                navigate('/login');
+            }
+        };
         const fetchUser = async () => {
             try {
                 const response = await axios.get(
@@ -46,7 +66,23 @@ const SideBar: React.FC = () => {
             }
         };
         fetchUser();
+        fetchNews();
     }, [navigate]);
+
+    // Dividir as notícias em subarrays de no máximo 3 itens
+    const groupedNews = news
+        ? news.reduce<INews[][]>((result, current, index) => {
+              const groupIndex = Math.floor(index / 3);
+              if (!result[groupIndex]) {
+                  result[groupIndex] = [];
+              }
+              result[groupIndex].push(current);
+              return result;
+          }, [])
+        : [];
+
+    // Limitar o número de listas a no máximo 3
+    const limitedLists = groupedNews.slice(0, 3);
 
     return (
         <Container>
@@ -69,18 +105,27 @@ const SideBar: React.FC = () => {
                             }) ?? []
                         }
                     />
-                    <List
-                        title="O que está acontecendo"
-                        elements={[<News />, <News />, <News />]}
-                    />
-                    <List
-                        title="O que está acontecendo"
-                        elements={[<News />, <News />, <News />]}
-                    />
-                    <List
-                        title="O que está acontecendo"
-                        elements={[<News />, <News />, <News />]}
-                    />
+                    {limitedLists.map((newsGroup, index) => (
+                        <List
+                            key={index}
+                            title={
+                                index === 0
+                                    ? 'Assuntos do momento no mundo'
+                                    : index === 1
+                                    ? 'Assuntos do momento no Brasil'
+                                    : index === 2
+                                    ? 'Assuntos do momento na sua região'
+                                    : 'Noticias'
+                            }
+                            elements={newsGroup.map((n) => (
+                                <News
+                                    key={n.link}
+                                    description={n.description}
+                                    link={n.link}
+                                />
+                            ))}
+                        />
+                    ))}
                 </Body>
             </StickyBox>
         </Container>
