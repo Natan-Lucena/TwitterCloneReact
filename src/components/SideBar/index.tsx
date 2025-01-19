@@ -120,6 +120,15 @@ const SideBar: React.FC = () => {
                             elements={newsGroup.map((n) => (
                                 <News
                                     key={n.link}
+                                    title={
+                                        index === 0
+                                            ? 'Assuntos do momento no mundo'
+                                            : index === 1
+                                            ? 'Assuntos do momento no Brasil'
+                                            : index === 2
+                                            ? 'Assuntos do momento na sua região'
+                                            : 'Noticias'
+                                    }
                                     description={n.description}
                                     link={n.link}
                                 />
